@@ -17,7 +17,6 @@ document.addEventListener('click', () => {
   console.log("content.js: EventListener: message sent to runtime")
 });
 
-console.log("")
 function playSound() {
   console.log("content.js: playSound(): entered function")
   let audio = new Audio(chrome.runtime.getURL('audio/pop.mp3'));
