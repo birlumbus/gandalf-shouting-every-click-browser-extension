@@ -1,12 +1,12 @@
 // background.js (service worker)
 
 try {
-  console.log("Entered background.js");
+  console.log("background.js: Entering script");
 
   // Correct the callback function to accept the 'details' parameter
   function handleInstallation(details) {
     if (details.reason === 'install') {
-      console.log('Extension installed');
+      console.log('background.js: Extension installed');
 
       // For example, inject content script into active tab
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -14,14 +14,14 @@ try {
         chrome.runtime.sendMessage({ action: 'injectContentScript', tabId: activeTab.id });
       });
     } else if (details.reason === 'update') {
-      console.log('Extension updated');
+      console.log('background.js: Extension updated');
     }
   };
 
   // Add the listener correctly with the 'handleInstallation' function
   chrome.runtime.onInstalled.addListener(handleInstallation);
 
-  console.log("Adding addListener");
+  console.log("background.js: Adding addListener");
 
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete') {
@@ -30,15 +30,15 @@ try {
     }
   });
 
-  console.log("Added listener");
-  console.log("Triggering playClickSoundInContentScript()");
+  console.log("background.js: Added listener");
+  console.log("background.js: Triggering playClickSoundInContentScript()");
 
   function playClickSoundInContentScript() {
     // Trigger the playClickSound function in content-script.js
     chrome.runtime.sendMessage({ action: 'playClickSound' });
   }
 
-  console.log("Script complete");
+  console.log("background.js: Script complete");
 } catch(error) {
-  console.error("Error in background.js: ", error);
+  console.error("background.js: Error in background.js: ", error);
 }

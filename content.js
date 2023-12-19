@@ -1,15 +1,26 @@
-// Function to create and play a simple beep sound
-function playClickSound() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
+console.log("content.js: Entering script")
 
-  oscillator.type = 'sine'; // You can change the waveform
-  oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // Set frequency
-  oscillator.connect(audioContext.destination);
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log("content.js: Adding listener to runtime")
 
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + 0.1); // Adjust the duration of the sound
+  if (message.action === 'playClickSound') {
+    playSound();
+  }
+});
+
+document.addEventListener('click', () => {
+  console.log("content.js: Adding event listener to document")
+
+  // Trigger the playClickSound function in background.js
+  chrome.runtime.sendMessage({ action: 'playClickSound' });
+
+  console.log("content.js: Event listener added")
+});
+
+console.log("")
+function playSound() {
+  console.log("content.js: About to play the sound!!")
+  const audio = new Audio(chrome.runtime.getURL('audio/pop.mp3'));
+  audio.play();
+  console.log("content.js: Played the sound. (^v^)")
 }
-
-// Add a click event listener to the document
-document.addEventListener('click', playClickSound);
