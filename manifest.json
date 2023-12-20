@@ -4,9 +4,6 @@
   "version": "1.0",
   "description": "He will probably start shouting",
   "permissions": ["activeTab"],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "js": ["content.js"],
